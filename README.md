@@ -1,115 +1,192 @@
-## Technical Tools
+# 🧩 Puzzle Chat AI
 
-- Backend:
-    - Django (Python web framework)
-    - Django Channels: for real-time WebSocket communication
-    - PostgreSQL: for database
-- Frontend:
-    -
-- Real-time Collaboration:
-    - WebSockets: for real-time updates (integrated with Django Channels on the backend)
-- AI Integration:
-    - OpenAI API (ChatGPT): for story suggestions and assistance
+A real-time collaborative puzzle-solving chat application where teams work together with AI assistance to solve challenging puzzles and riddles.
 
+## 🎯 What This Project Does
 
-## Execution method
-### Step 1: Install Django & channels (in the anaconda environment)
-```
-pip install django
-```
-```
-pip install channels
-```
-### Step 2: Start a Django Project
-#### 1. Open the terminal and navigate to the directory where you want to create your project.
-#### 2. Run the following command to start a new Django project:
-```
-python -m django startproject puzzle_chat_ai
-```
-#### 3. Create a Django App
-Firstly nevigate to the puzzle_chat_ai file
-```
+**Puzzle Chat AI** brings people together to solve puzzles collaboratively in real-time. Users can:
+
+- 💬 **Chat in real-time** with other puzzle solvers
+- 🤖 **Get AI assistance** from integrated ChatGPT for hints and suggestions  
+- 🧩 **Solve puzzles together** in shared virtual rooms
+- 📊 **Track progress** with conversation summaries and interaction logs
+- 👥 **Collaborate seamlessly** with WebSocket-powered live updates
+
+Perfect for puzzle enthusiasts, team building activities, educational settings, or anyone who enjoys collaborative problem-solving!
+
+## 🛠️ Tech Stack
+
+- **Backend**: Django + Django Channels for WebSocket support
+- **Database**: PostgreSQL 
+- **AI Integration**: OpenAI GPT API
+- **Real-time Communication**: WebSockets
+- **Frontend**: HTML, CSS, JavaScript
+- **Deployment**: Can be deployed with ngrok for testing or any WSGI server
+
+## 🚀 Quick Start
+
+### Prerequisites
+
+- Python 3.8+
+- PostgreSQL
+- OpenAI API key
+
+### 1. Clone and Setup
+
+```bash
+git clone https://github.com/leowang3268/puzzle-chat-ai.git
+cd puzzle-chat-ai
 cd puzzle_chat_ai
 ```
-Next, to create an app, run:
-```
-python manage.py startapp chat
-```
-#### 4. File Structure
-The file structure now will look like:
-```
-puzzle_chat_ai/
-    db.sqlite3
-    manage.py
-    puzzle_chat_ai/
-        __init__.py
-        asgi.py
-        settings.py
-        urls.py
-        wsgi.py
-    chat/
-        __init__.py
-        admin.py
-        apps.py
-        models.py
-        tests.py
-        views.py
-        migrations/
-```
-### Step 3: Update the file
-update the files in chat directory and mywebsite directory with the code provided above.
-### ps. There are some files that you need to add.
-#### In the " ./puzzle_chat_ai/chat
-#### add files: "consumers.py", "forms.py", "routing.py", "urls.py"
-#### add directory: "templates"
-#### And in the "templates" directory 
-#### add "chat" directory
-#### And in the ./puzzle_chat_ai/chat/templates/chat/
-#### add files: "index.html", "lobby.html"
-#### Also update the code in these files
 
-### Step 4: Create the database and Migrate the model to database
-#### 1. Create you database, and update the personal information in the setting.py
-![image](https://github.com/user-attachments/assets/46f8b166-a589-4ec8-9588-e9ec1fc538e4)
+### 2. Install Dependencies
 
-#### 2. run the command to migrate the models to the database:
+```bash
+pip install django
+pip install channels
+pip install openai
+pip install psycopg2-binary
+pip install python-dotenv
+# Or use: pip install -r requirements.txt
 ```
+
+### 3. Environment Configuration
+
+```bash
+# Copy the example environment file
+cp puzzle_chat_ai/.env.example puzzle_chat_ai/.env
+
+# Edit .env with your actual values:
+# - Add your OpenAI API key
+# - Configure database credentials
+```
+
+### 4. Database Setup
+
+```bash
+# Create PostgreSQL database
+createdb puzzle_chat_ai
+
+# Run migrations
 python manage.py makemigrations
 python manage.py migrate
 ```
 
+### 5. Run the Application
 
-### Step 5: Run the server
-run the command:
-```
+```bash
 python manage.py runserver
 ```
-ps. if there are any package that you didn't have, please pip them
 
-### Step 6: Use ngrok to connect to the server
-#### 1. Download ngrok in their website
-#### 2. put the ngrok.exe at the place you like
-#### 3. In the place where you put the ngrok.exe, open the terminal
-#### 4. run the prompt
+Visit `http://localhost:8000` to start solving puzzles!
+
+## 🏗️ Project Structure
+
 ```
-.\ngrok http http://localhost:8000
+puzzle_chat_ai/
+├── puzzle_chat_ai/          # Django project settings
+│   ├── settings.py          # Main configuration
+│   ├── asgi.py             # ASGI config for WebSockets
+│   └── .env.example        # Environment template
+├── chat/                   # Main chat application
+│   ├── models.py           # Database models
+│   ├── consumers.py        # WebSocket handlers
+│   ├── views.py            # HTTP views
+│   ├── templates/          # HTML templates
+│   └── management/         # Custom Django commands
+├── static/                 # CSS, JS files
+└── requirements.txt        # Python dependencies
 ```
-#### and there will be a Forwarding url (suppose like https://aaa.ngrok-free.app)
-#### copy the part "aaa.ngrok-free.app" and paste in the lobby.html
-#### there is a line in lobby.html like
+
+## 🔧 Key Features
+
+### Real-time Chat
+- Live messaging between users in puzzle rooms
+- Message reactions and replies
+- Typing indicators
+
+### AI Integration
+- Smart puzzle hints from ChatGPT
+- Conversation summaries
+- Adaptive responses based on puzzle context
+
+### Room Management
+- Create and join puzzle rooms
+- Room-specific chat history
+- Export conversation data
+
+### Data Management
+- PostgreSQL for reliable data storage
+- Export tools for chat logs
+- Room cleanup utilities
+
+## 🌐 Deployment with ngrok (for testing)
+
+For sharing your local development with others:
+
+```bash
+# Install ngrok from https://ngrok.com/
+# Run your Django server
+python manage.py runserver
+
+# In another terminal, expose it
+ngrok http 8000
+
+# Share the ngrok URL with collaborators
 ```
-let url = `6911-2001-288-4001-d750-c520-3669-39a1-17f.ngrok-free.app/ws/socket-server/?userName=${userName}`;
+
+## 🤝 Contributing
+
+We welcome contributions! Here's how to get started:
+
+1. Fork the repository
+2. Create a feature branch (`git checkout -b feature/amazing-feature`)
+3. Make your changes
+4. Commit your changes (`git commit -m 'Add amazing feature'`)
+5. Push to the branch (`git push origin feature/amazing-feature`)
+6. Open a Pull Request
+
+## 📝 Environment Variables
+
+Required environment variables (see `.env.example`):
+
+```env
+OPENAI_API_KEY=your_openai_api_key_here
+DB_NAME=puzzle_chat_ai
+DB_USER=postgres
+DB_PASSWORD=your_password_here
+DB_HOST=localhost
+DB_PORT=5432
 ```
-#### replace with
-```
-let url = `aaa.ngrok-free.app/ws/socket-server/?userName=${userName}`;
-```
-#### And you can use the url: https://aaa.ngrok-free.app to connect to the server
-#### ps. remember to run the server
 
+## 🐛 Troubleshooting
 
+### Common Issues
 
-        
+**Database Connection Error**
+- Ensure PostgreSQL is running
+- Check database credentials in `.env`
+- Verify database exists
 
+**WebSocket Connection Failed**
+- Check if Django Channels is properly installed
+- Ensure ASGI application is configured correctly
 
+**AI Responses Not Working**
+- Verify OpenAI API key is valid
+- Check API rate limits and billing
 
+## 📄 License
+
+This project is open source. Feel free to use and modify for your needs.
+
+## 🙋‍♂️ Support
+
+Having issues? Please:
+1. Check the troubleshooting section above
+2. Search existing GitHub issues
+3. Create a new issue with detailed description
+
+---
+
+**Happy puzzle solving! 🧩✨**
