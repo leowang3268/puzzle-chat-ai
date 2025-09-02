@@ -42,12 +42,13 @@ cd puzzle_chat_ai
 ### 2. Install Dependencies
 
 ```bash
-pip install django
-pip install channels
-pip install openai
-pip install psycopg2-binary
-pip install python-dotenv
-# Or use: pip install -r requirements.txt
+# Install all dependencies
+pip install -r requirements.txt
+
+# Or install individually:
+pip install django channels channels-redis
+pip install openai psycopg2-binary
+pip install python-dotenv redis django-redis
 ```
 
 ### 3. Environment Configuration
@@ -61,11 +62,16 @@ cp puzzle_chat_ai/.env.example puzzle_chat_ai/.env
 # - Configure database credentials
 ```
 
-### 4. Database Setup
+### 4. Database & Redis Setup
 
 ```bash
 # Create PostgreSQL database
 createdb puzzle_chat_ai
+
+# Start Redis (for caching and real-time features)
+# On macOS: brew services start redis
+# On Ubuntu: sudo systemctl start redis
+# On Windows: Download and run Redis
 
 # Run migrations
 python manage.py makemigrations
@@ -106,9 +112,10 @@ puzzle_chat_ai/
 - Typing indicators
 
 ### AI Integration
-- Smart puzzle hints from ChatGPT
+- Smart puzzle hints from ChatGPT with caching
 - Conversation summaries
 - Adaptive responses based on puzzle context
+- Optimized API calls with fallback models
 
 ### Room Management
 - Create and join puzzle rooms
@@ -161,6 +168,7 @@ DB_USER=postgres
 DB_PASSWORD=your_password_here
 DB_HOST=localhost
 DB_PORT=5432
+REDIS_URL=redis://localhost:6379
 ```
 
 ### 🔐 Security Setup

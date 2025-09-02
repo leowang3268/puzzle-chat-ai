@@ -57,10 +57,14 @@ STATICFILES_DIRS = [
 
 ASGI_APPLICATION = 'puzzle_chat_ai.asgi.application'
 
-CHANNEL_LAYERS={
-    'default':{
-        'BACKEND':'channels.layers.InMemoryChannelLayer'
-    }
+# Channel Layers - Use Redis for production scalability
+CHANNEL_LAYERS = {
+    'default': {
+        'BACKEND': 'channels_redis.core.RedisChannelLayer' if not DEBUG else 'channels.layers.InMemoryChannelLayer',
+        'CONFIG': {
+            "hosts": [os.getenv('REDIS_URL', 'redis://localhost:6379')],
+        } if not DEBUG else {},
+    },
 }
 
 MIDDLEWARE = [
@@ -139,6 +143,19 @@ USE_I18N = True
 
 USE_TZ = True
 
+
+# Caching Configuration
+CACHES = {
+    'default': {
+        'BACKEND': 'django_redis.cache.RedisCache' if not DEBUG else 'django.core.cache.backends.locmem.LocMemCache',
+        'LOCATION': os.getenv('REDIS_URL', 'redis://localhost:6379/1'),
+        'OPTIONS': {
+            'CLIENT_CLASS': 'django_redis.client.DefaultClient',
+        } if not DEBUG else {},
+        'KEY_PREFIX': 'puzzle_chat_ai',
+        'TIMEOUT': 300,  # 5 minutes default
+    }
+}
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/5.1/howto/static-files/
