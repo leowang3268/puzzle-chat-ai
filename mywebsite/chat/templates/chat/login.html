@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>登入聊天室</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        body {
+            margin: 0; font-family: Arial, sans-serif;
+            background: linear-gradient(135deg, #6a11cb, #2575fc);
+            color: #ffffff; display: flex; justify-content: center;
+            align-items: center; min-height: 100vh;
+        }
+        #mainPage {
+            text-align: center; background: rgba(255, 255, 255, 0.1);
+            padding: 40px; border-radius: 15px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+            width: 90%; max-width: 400px;
+        }
+        h3 { font-size: 1.5rem; margin-bottom: 20px; color: #f0f0f0; }
+        h4 { font-size: 1.2rem; margin-bottom: 15px; text-align: left; }
+        input[type="text"] {
+            width: 100%; padding: 12px; margin-bottom: 25px; border: none;
+            border-radius: 8px; font-size: 1rem; outline: none;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2); box-sizing: border-box;
+        }
+        button {
+            background: #2575fc; border: none; padding: 12px 20px;
+            font-size: 1rem; border-radius: 8px; color: white;
+            cursor: pointer; transition: background 0.3s ease;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2); width: 100%;
+        }
+        button:hover { background: #1e63db; }
+    </style>
+</head>
+<body>
+    <div id="mainPage">
+        <h3>AI合作寫作系統</h3>
+        <form id="loginForm">
+            <div>
+                <h4>請填入你的暱稱:</h4>
+                <input type="text" id="userName" name="userName" required />
+                
+                <h4>請填入房間號碼:</h4>
+                <input type="text" id="roomName" name="roomName" required />
+                
+                <button type="submit">進入</button>
+            </div>
+        </form>
+    </div>
+
+    <script>
+        document.getElementById('loginForm').addEventListener('submit', function (e) {
+            e.preventDefault();
+
+            let userName = document.getElementById('userName').value.trim();
+            let roomName = document.getElementById('roomName').value.trim();
+
+            if (userName === "" || roomName === "") {
+                alert("暱稱和房間號碼都不能為空！");
+                return;
+            }
+
+            // 將使用者名稱存到 sessionStorage，方便聊天室頁面使用
+            sessionStorage.setItem('userName', userName);
+
+            // 動態產生聊天室的 URL 並跳轉
+            // 例如，如果輸入 "Leo" 和 "story1"，就會跳轉到 /chat/story1/?userName=Leo
+            window.location.href = `/chat/${roomName}/?userName=${userName}`;
+        });
+    </script>
+</body>
+</html>

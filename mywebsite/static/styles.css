@@ -1,0 +1,670 @@
+/* styles.css (New Version) */
+
+/* --- 1. Root & General Styles --- */
+@import url('https://fonts.googleapis.com/css2?family=Nunito+Sans:wght@400;600;700&display=swap');
+
+h1 {
+  text-align: center;
+}
+
+:root {
+    --bg-color: #1A1D21;
+    --panel-color: #2C2F33;
+    --border-color: #40444B;
+    --text-primary: #EAECEE;
+    --text-secondary: #B9BBBE;
+    --accent-blue: #007BFF;
+    --accent-blue-hover: #0056b3;
+    --accent-purple: #8A2BE2; /* For AI */
+    --accent-green: #2ECC71; /* For Story Intro */
+
+    --font-family: 'Nunito Sans', sans-serif;
+}
+
+* {
+    box-sizing: border-box;
+}
+
+body {
+    display: flex;
+    height: 100vh;
+    margin: 0;
+    font-family: var(--font-family);
+    background-color: var(--bg-color);
+    color: var(--text-primary);
+    overflow: hidden;
+}
+
+/* --- 2. Main Layout --- */
+#container {
+    height: 100%;
+    width: 100%;
+    display: flex;
+    padding: 20px;
+    gap: 20px;
+}
+
+#resizer {
+    width: 8px;
+    cursor: ew-resize;
+    background-color: transparent;
+    border-left: 1px solid var(--border-color);
+    border-right: 1px solid var(--border-color);
+    border-radius: 4px;
+    transition: background-color 0.2s ease;
+}
+#resizer:hover {
+    background-color: var(--accent-blue);
+}
+
+/* --- 3. Left Panel (Briefing) --- */
+#left-space {
+    flex: 0 0 30%;
+    min-width: 300px;
+    max-width: 500px;
+    background-color: var(--panel-color);
+    border-radius: 12px;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    border: 1px solid var(--border-color);
+}
+
+details {
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    background-color: var(--bg-color);
+    transition: all 0.3s ease;
+}
+details[open] {
+    padding-bottom: 15px;
+}
+
+summary {
+    list-style: none;
+    padding: 15px;
+    font-size: 1.1em;
+    font-weight: 700;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+summary::before {
+    content: '▶';
+    font-size: 0.8em;
+    transform: rotate(0deg);
+    transition: transform 0.3s ease;
+}
+details[open] > summary::before {
+    transform: rotate(90deg);
+}
+
+.details-content {
+    padding: 0 15px;
+    font-size: 0.95em;
+    line-height: 1.6;
+    color: var(--text-secondary);
+}
+
+#shared-messages {
+    max-height: 400px;
+    overflow-y: auto;
+    padding-right: 10px; /* For scrollbar */
+}
+
+
+/* --- 4. Chat Containers (Common) --- */
+.chat-container {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    background-color: var(--panel-color);
+    border: 1px solid var(--border-color);
+    border-radius: 12px;
+    overflow: hidden;
+}
+
+.chat-header {
+    padding: 15px 20px;
+    border-bottom: 1px solid var(--border-color);
+    font-size: 1.2em;
+    font-weight: 700;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.chat-header i {
+    margin-right: 10px;
+}
+
+.messages-area {
+    flex-grow: 1;
+    padding: 10px 20px;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+/* Scrollbar styling */
+.messages-area::-webkit-scrollbar { width: 8px; }
+.messages-area::-webkit-scrollbar-track { background: transparent; }
+.messages-area::-webkit-scrollbar-thumb { background: #555; border-radius: 4px; }
+.messages-area::-webkit-scrollbar-thumb:hover { background: #777; }
+
+
+/* --- 5. Message Bubbles --- */
+.message, .ai-message, .shared-message {
+    max-width: 80%;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+.message p, .ai-message p, .shared-message p {
+    padding: 10px 15px;
+    border-radius: 18px;
+    line-height: 1.5;
+    word-wrap: break-word;
+}
+
+/* Own Messages */
+.message.own, .ai-message.own, .shared-message.own {
+    align-self: flex-end;
+    align-items: flex-end;
+}
+.message.own p {
+    background-color: var(--accent-blue);
+    color: white;
+    border-bottom-right-radius: 4px;
+}
+.ai-message.own p {
+    background-color: var(--accent-purple);
+    color: white;
+    border-bottom-right-radius: 4px;
+}
+.shared-message.own p {
+    background-color: #004d40;
+    color: white;
+    border-bottom-right-radius: 4px;
+}
+
+/* Other's Messages */
+.message.other, .ai-message.other, .shared-message.other {
+    align-self: flex-start;
+    align-items: flex-start;
+}
+.message.other p, .ai-message.other p, .shared-message.other p {
+    background-color: #3A3F44;
+    color: var(--text-primary);
+    border-bottom-left-radius: 4px;
+}
+
+/* --- 6. Chat Input Form --- */
+.chat-form {
+    display: flex;
+    padding: 15px;
+    border-top: 1px solid var(--border-color);
+    gap: 10px;
+}
+.chat-textarea {
+    flex-grow: 1;
+    background-color: var(--bg-color);
+    color: var(--text-primary);
+    border: 1px solid var(--border-color);
+    border-radius: 20px;
+    padding: 10px 20px;
+    resize: none;
+    font-family: var(--font-family);
+    font-size: 1em;
+    min-height: 42px;
+    transition: border-color 0.2s ease;
+}
+.chat-textarea:focus {
+    outline: none;
+    border-color: var(--accent-blue);
+}
+.chat-form button {
+    flex-shrink: 0;
+    width: 42px;
+    height: 42px;
+    border: none;
+    border-radius: 50%;
+    color: white;
+    cursor: pointer;
+    font-size: 1.1em;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background-color 0.2s ease, transform 0.1s ease;
+}
+#form button { background-color: var(--accent-blue); }
+#form button:hover { background-color: var(--accent-blue-hover); }
+#ai-form button { background-color: var(--accent-purple); }
+#ai-form button:hover { background-color: #6a1ead; }
+
+.chat-form button:active {
+    transform: scale(0.95);
+}
+
+/* --- 7. Special Components (Share Button, Tooltip) --- */
+#shared-option-button {
+    background-color: var(--accent-purple);
+    border: none;
+    color: white;
+    padding: 8px 12px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 0.9em;
+    transition: background-color 0.2s ease;
+}
+#shared-option-button:hover {
+    background-color: #6a1ead;
+}
+
+#shared-content-options {
+    /* Styles for the pop-up panel can remain similar, but ensure colors match */
+    background-color: var(--panel-color);
+    border: 1px solid var(--border-color);
+    box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+    display: none; /* Controlled by JS */
+}
+
+.typing-indicator-wrapper p {
+    padding: 12px 18px !important;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.typing-dot {
+    width: 8px;
+    height: 8px;
+    background-color: var(--text-secondary);
+    border-radius: 50%;
+    animation: typing-blink 1.4s infinite both;
+}
+
+.typing-dot:nth-child(2) {
+    animation-delay: 0.2s;
+}
+
+.typing-dot:nth-child(3) {
+    animation-delay: 0.4s;
+}
+
+@keyframes typing-blink {
+    0% {
+        opacity: 0.2;
+    }
+    20% {
+        opacity: 1;
+    }
+    100% {
+        opacity: 0.2;
+    }
+}
+
+
+/* 1. 圖示的樣式 (大部分不變) */
+.tooltip-icon {
+  display: inline-block;
+  width: 16px;
+  height: 16px;
+  margin-right: 8px;
+  vertical-align: middle;
+  cursor: help;
+  background-image: url('data:image/svg+xml;charset=UTF-8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="%23888"><path fill-rule="evenodd" d="M8 1.5a6.5 6.5 0 100 13a6.5 6.5 0 000-13zM0 8a8 8 0 1116 0A8 8 0 010 8zm8.25-2.75a.75.75 0 00-1.5 0v2.5a.75.75 0 001.5 0v-2.5zm-1.5 5a.75.75 0 100 1.5.75.75 0 000-1.5z" clip-rule="evenodd" /></svg>');
+  background-size: contain;
+}
+
+/* 2. 新的、由 JS 控制的 Tooltip 樣式 */
+.universal-tooltip {
+  position: absolute; /* 直接定位在 body 上 */
+  background-color: #333;
+  color: #fff;
+  padding: 8px 12px;
+  border-radius: 6px;
+  font-size: 14px;
+  line-height: 1.4;
+  white-space: nowrap;
+  z-index: 9999; /* 給一個非常高的 z-index */
+  
+  /* 動畫效果 */
+  opacity: 0;
+  transition: opacity 0.2s ease-in-out;
+  
+  /* 避免滑鼠直接觸發到它自己，導致 mouseout 異常 */
+  pointer-events: none; 
+}
+
+.context-menu {
+  /* ⭐ 核心修正：設定絕對定位 ⭐ */
+  position: absolute;
+
+  /* 以下為建議的樣式，讓選單更好看 */
+  background-color: #ffffff;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  min-width: 120px;
+  padding: 6px 0;
+  z-index: 1000; /* 確保它顯示在所有其他元素的上方 */
+  list-style-type: none; /* 移除 ul/li 的預設點點 */
+  margin: 0;
+}
+
+.context-menu-item {
+  padding: 8px 16px;
+  font-size: 15px;
+  color: #333;
+  cursor: pointer; /* 滑鼠移上去時顯示為手形 */
+  white-space: nowrap; /* 確保文字不換行 */
+}
+
+/* 滑鼠懸停時的背景色，提供視覺回饋 */
+.context-menu-item:hover {
+  background-color: #f5f5f5;
+}
+
+/* --- 回覆訊息的樣式 --- */
+
+.reply-content {
+  padding: 8px 12px;
+  margin-bottom: -1px; /* 讓它和下面的訊息框完美貼合 */
+  border-radius: 10px 10px 0 0;
+  font-size: 14px;
+  display: block;
+  flex-direction: column;
+}
+
+.reply-content span {
+  font-size: 12px;
+  font-weight: bold;
+  margin-bottom: 4px;
+}
+
+.reply-content p {
+  margin: 0;
+  opacity: 0.9;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* ⭐ 回覆給自己的訊息 (淡藍) ⭐ */
+/* 我們將選擇器寫得更具體，以提高其優先級 */
+.message .reply-content.reply-to-own {
+  background-color: #2e3a4f; /* 深一點的藍灰色背景 */
+  border-left: 3px solid #0084ff; /* 使用主藍色調 */
+}
+.message .reply-content.reply-to-own p {
+  color: #c4d4e8; /* 淡藍色文字 */
+}
+
+/* ⭐ 回覆給別人的訊息 (淡灰) ⭐ */
+/* 同樣，使用更具體的選擇器 */
+.message .reply-content.reply-to-other {
+  background-color: #3e4042; /* 深灰色背景 */
+  border-left: 3px solid #8a8d91; /* 使用次要灰色調 */
+}
+.message .reply-content.reply-to-other p {
+  color: #d1d3d6; /* 亮灰色文字 */
+}
+
+/* ======================================== */
+/* 共享內容/摘要區塊的訊息樣式         */
+/* ======================================== */
+
+/* 共享區塊的訊息容器，設定flex佈局讓訊息可以堆疊 */
+#shared-messages {
+  display: flex;
+  flex-direction: column;
+  gap: 12px; /* 訊息之間的間距 */
+  padding: 10px;
+}
+
+/* 共享訊息氣泡的通用樣式 */
+.shared-message {
+  padding: 10px 15px;
+  border-radius: 18px;
+  max-width: 90%; /* 訊息最大寬度，避免佔滿整行 */
+  line-height: 1.5;
+  word-wrap: break-word; /* 自動換行 */
+}
+
+/* 訊息氣泡內的段落，移除預設邊距 */
+.shared-message p {
+  margin: 0;
+}
+
+/* 模擬「其他人」的訊息樣式 (靠左，灰色) */
+.shared-message.common { /* .common 用於摘要 */
+  background-color: #e4e6eb; /* 淡灰色背景 */
+  color: #050505;
+  align-self: flex-start; /* 靠左對齊 */
+  border-radius: 18px 18px 18px 4px; /* 左下角為直角，更有對話感 */
+}
+
+/* 為「裁判回答」的氣泡 (.shared-message.common) 設定一個全新的、靠右的樣式 */
+.shared-message.common {
+  align-self: flex-end; /* 修改：讓這個氣泡在橫向靠右 */
+  max-width: 85%; 
+  text-align: right; /* 修改：讓氣泡內的文字也靠右 */
+  
+  background-color: #2C2F33; 
+  border: 1px solid #40444B;
+  border-radius: 8px; 
+  
+  /* 覆蓋掉 .other 的樣式，確保左下角不是直角 */
+  border-bottom-left-radius: 8px; 
+}
+
+/* 調整「裁判回答」氣泡內的文字顏色 */
+.shared-message.common p {
+  color: #B9BBBE; /* 使用次要的文字顏色 */
+}
+
+/* 讓「裁判回答:」這幾個字更醒目 */
+.shared-message.common p b {
+  color: #EAECEE; /* 使用主要的文字顏色 */
+}
+
+/* 模擬「自己」的訊息樣式 (靠右，藍色) */
+.shared-message.own {
+  background-color: #0084ff; /* 藍色背景 */
+  color: white;
+  align-self: flex-end; /* 靠右對齊 */
+  border-radius: 18px 18px 4px 18px; /* 右下角為直角 */
+}
+
+/* --- 修正「已讀」狀態的顯示位置 --- */
+
+/* --- 全新、穩定的訊息與已讀佈局 --- */
+
+/* 整個訊息行的容器，使用 Flexbox 將內容推到最右邊 */
+.message.own {
+  display: flex;
+  justify-content: flex-end; /* 關鍵：將所有內容推到右邊 */
+
+}
+
+/* 「已讀」文字樣式 */
+.read-status {
+  position: absolute; /* 相對於 .message-bundle 定位 */
+  bottom: 0;          /* 定位在底部 */
+  right: 50px;        /* ⭐ 從右邊算起 50px 的位置，您可以微調這個值 */
+  font-size: 12px;
+  color: #8a8d91;
+  white-space: nowrap; /* 防止換行 */
+}
+
+/* 「訊息包」的容器 */
+.message-bundle {
+  position: relative; /* 關鍵：讓內部的「已讀」可以相對於它定位 */
+  display: flex;
+  align-items: flex-end;
+  gap: 8px;
+  /* 為絕對定位的「已讀」留出空間 */
+  padding-bottom: 20px; 
+}
+
+
+
+/* 讚的容器樣式 */
+.thumb-wrapper {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  margin-bottom: 5px; /* 讓它和氣泡底部對齊得更好看 */
+}
+.thumb-count {
+  font-size: 14px;
+  color: #b0b8c2;
+}
+
+/* ⭐ 修改：按讚圖示的穩定版 CSS，選擇器從 .thumb-icon 改為 i.thumb-icon */
+i.thumb-icon {
+  width: 18px;
+  height: 18px;
+  cursor: pointer;
+  transition: transform 0.2s ease, color 0.2s ease;
+  font-size: 16px; /* 為 font-awesome 圖示設定大小 */
+}
+i.thumb-icon:active {
+  transform: scale(0.85); /* 增加點擊回饋感 */
+}
+
+/* 灰色 (未按讚) 樣式 */
+i.thumb-icon.gray {
+  color: #8a8d91;
+}
+
+/* 藍色 (已按讚) 樣式 */
+i.thumb-icon.blue {
+  color: #0084ff;
+}
+
+/* 新增的使用者名稱樣式 */
+.message-sender-name {
+  font-size: 14px;      /* 字體大小 */
+  font-weight: 600;     /* 字體粗細 */
+  color: #B0B3B8;        /* 字體顏色 (淡灰色) */
+  margin-bottom: 4px;   /* 和下方的訊息氣泡產生 4px 的間距 */
+  padding: 0 5px;       /* 左右留一點內邊距 */
+}
+
+/* 確保 .message.other 的名稱在左邊 */
+.message.other {
+    align-items: flex-start;
+}
+
+
+/* 新內容提示的發光動畫 */
+@keyframes pulse-glow {
+  0% {
+    box-shadow: 0 0 5px rgba(59, 130, 246, 0.2), 0 0 0px 0px rgba(59, 130, 246, 0.5);
+    border-color: #40444B;
+  }
+  50% {
+    /* 發光效果達到最強 */
+    box-shadow: 0 0 20px rgba(59, 130, 246, 0.6), 0 0 0px 4px rgba(59, 130, 246, 0.2);
+    border-color: #3B82F6; /* 藍色 */
+  }
+  100% {
+    box-shadow: 0 0 5px rgba(59, 130, 246, 0.2), 0 0 0px 0px rgba(59, 130, 246, 0.5);
+    border-color: #40444B;
+  }
+}
+
+/* 將動畫應用到左側面板上 */
+#shared-container.new-content-highlight {
+  animation: pulse-glow 2s ease-in-out infinite;
+}
+
+/* ⭐ START: NEW STYLES FOR SUGGESTION BOX (OPTIMIZED VERSION) ⭐ */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+#suggestion-container {
+    background-color: #292b2f; /* Slightly lighter background to differentiate */
+    border-top: 1px solid var(--border-color);
+    padding: 12px 18px; /* Increased padding for more space */
+    margin: 0 15px; /* Aligns with the form's horizontal space */
+    border-radius: 8px 8px 0 0; 
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    animation: fadeIn 0.3s ease-in-out;
+}
+
+#suggestion-container p {
+    margin: 0;
+    color: var(--text-primary); /* Brighter text */
+    font-size: 15px; /* Slightly larger font */
+    flex-grow: 1;
+    margin-right: 20px; /* More space between text and buttons */
+    line-height: 1.5; /* Better for multi-line text */
+}
+
+#suggestion-container p strong {
+    color: var(--accent-purple);
+    font-weight: 700;
+    margin-right: 8px;
+}
+
+.suggestion-actions {
+    display: flex;
+    align-items: center;
+    gap: 12px; /* Increased gap between buttons */
+    flex-shrink: 0; 
+}
+
+#suggestion-container button {
+    display: flex; /* Use flex to align icon and text */
+    align-items: center;
+    gap: 8px; /* Space between icon and text */
+    padding: 8px 16px;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-weight: 600;
+    font-size: 14px;
+    transition: all 0.2s ease-in-out; /* Smooth transition for all properties */
+}
+
+/* Add Font Awesome icons using pseudo-elements */
+#send-suggestion-btn::before,
+#dismiss-suggestion-btn::before {
+    font-family: "Font Awesome 6 Free";
+    font-weight: 900; /* Use solid style icons */
+}
+
+#send-suggestion-btn {
+    background-color: var(--accent-blue);
+    color: white;
+}
+#send-suggestion-btn:hover {
+    background-color: var(--accent-blue-hover);
+    transform: translateY(-1px); /* Subtle lift effect */
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2); /* Add shadow on hover */
+}
+#send-suggestion-btn::before {
+    content: "\f1d8"; /* Font Awesome paper-plane icon */
+}
+
+#dismiss-suggestion-btn {
+    background-color: #3a3f44; /* A solid, neutral background */
+    color: var(--text-secondary);
+}
+#dismiss-suggestion-btn:hover {
+    background-color: #4a4f54;
+    color: var(--text-primary);
+}
+#dismiss-suggestion-btn::before {
+    content: "\f00d"; /* Font Awesome times (X) icon */
+}
+/* ⭐ END: NEW STYLES FOR SUGGESTION BOX (OPTIMIZED VERSION) ⭐ */
