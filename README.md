@@ -151,6 +151,10 @@ We welcome contributions! Here's how to get started:
 Required environment variables (see `.env.example`):
 
 ```env
+# Generate with: python generate_secret_key.py
+SECRET_KEY=your_secret_key_here
+DEBUG=True
+ALLOWED_HOSTS=localhost,127.0.0.1
 OPENAI_API_KEY=your_openai_api_key_here
 DB_NAME=puzzle_chat_ai
 DB_USER=postgres
@@ -158,6 +162,20 @@ DB_PASSWORD=your_password_here
 DB_HOST=localhost
 DB_PORT=5432
 ```
+
+### 🔐 Security Setup
+
+**Generate a secure secret key:**
+```bash
+python generate_secret_key.py
+```
+
+**For production deployment:**
+- Use `.env.production.example` as template
+- Set `DEBUG=False`
+- Configure specific `ALLOWED_HOSTS`
+- Use strong database passwords
+- Never commit real `.env` files to git
 
 ## 🐛 Troubleshooting
 
