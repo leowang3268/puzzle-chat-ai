@@ -3,7 +3,7 @@
 from django.core.management.base import BaseCommand, CommandError
 from django.db import transaction
 # ⭐ 導入您所有與房間相關的模型
-from chat.models import ChatMessage, ai_ChatMessage, chatMessage_summary, ai_ChatMessage_summary
+from chat.models import ChatMessage, AIChatMessage, ChatMessageSummary, AIChatMessageSummary
 
 class Command(BaseCommand):
     help = 'Deletes all data associated with a specific room name from all relevant models.'
@@ -23,9 +23,9 @@ class Command(BaseCommand):
         # ⭐ 列出所有需要被清理的模型
         models_to_clean = [
             ChatMessage, 
-            ai_ChatMessage, 
-            chatMessage_summary, 
-            ai_ChatMessage_summary
+            AIChatMessage, 
+            ChatMessageSummary, 
+            AIChatMessageSummary
         ]
 
         self.stdout.write(self.style.WARNING(f"--- PRE-DELETION CHECK FOR ROOM: '{room_name}' ---"))

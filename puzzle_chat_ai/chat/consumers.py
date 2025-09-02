@@ -8,7 +8,7 @@ import logging
 from channels.generic.websocket import AsyncWebsocketConsumer
 from asgiref.sync import sync_to_async
 from django.conf import settings
-from .models import ChatMessage, ChatUser, ai_ChatMessage
+from .models import ChatMessage, ChatUser, AIChatMessage
 
 logger = logging.getLogger(__name__)
 
@@ -212,11 +212,11 @@ class ChatConsumer(AsyncWebsocketConsumer):
     @sync_to_async
     def update_suggestion_response(self, message_id, response_action):
         try:
-            message = ai_ChatMessage.objects.get(id=message_id)
+            message = AIChatMessage.objects.get(id=message_id)
             message.suggestion_response = response_action
             message.save()
-        except ai_ChatMessage.DoesNotExist:
-            logger.warning(f"Could not find ai_ChatMessage with id {message_id} to update suggestion response.")
+        except AIChatMessage.DoesNotExist:
+            logger.warning(f"Could not find AIChatMessage with id {message_id} to update suggestion response.")
 
     async def receive(self, text_data):
         text_data_json = json.loads(text_data)
@@ -224,7 +224,7 @@ class ChatConsumer(AsyncWebsocketConsumer):
 
         if message_type == 'user_connect':
             messages = await sync_to_async(list)(ChatMessage.objects.filter(room_name=self.room_name).order_by('timestamp'))
-            ai_messages = await sync_to_async(list)(ai_ChatMessage.objects.filter(room_name=self.room_name).order_by('timestamp'))
+            ai_messages = await sync_to_async(list)(AIChatMessage.objects.filter(room_name=self.room_name).order_by('timestamp'))
             for message in messages:
                 await self.send(text_data=json.dumps({'type': 'chat', 'userName': message.user_name, 'message': message.message, 'replyText': message.reply_message, 'replyAuthor': message.reply_author, 'liked_by': message.liked_by, 'timestamp': message.timestamp.isoformat()}))
             for message in ai_messages:
@@ -261,7 +261,7 @@ class ChatConsumer(AsyncWebsocketConsumer):
             elif mode == 'C': # 高凝聚力序列的實驗條件
                 awareness_summary = await self.get_cohesive_sequence_suggestion(FIXED_PUZZLE["question"], user_question, ai_answer, human_chat_history, user_name)
             
-            ai_chat_message = await sync_to_async(ai_ChatMessage.objects.create)(
+            ai_chat_message = await sync_to_async(AIChatMessage.objects.create)(
                 room_name=self.room_name, 
                 user_name=user_name, 
                 message=user_question, 
@@ -357,7 +357,7 @@ class ChatConsumer(AsyncWebsocketConsumer):
     
     @sync_to_async
     def get_recent_ai_chat_history(self, user_name, limit=10):
-        messages = ai_ChatMessage.objects.filter(room_name=self.room_name, user_name=user_name).order_by('-timestamp')[:limit]
+        messages = AIChatMessage.objects.filter(room_name=self.room_name, user_name=user_name).order_by('-timestamp')[:limit]
         history = []
         for msg in reversed(messages):
             history.append({"role": "user", "content": msg.message})

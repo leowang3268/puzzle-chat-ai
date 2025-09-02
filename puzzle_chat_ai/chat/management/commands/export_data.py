@@ -16,7 +16,7 @@ class Command(BaseCommand):
             '--model',
             nargs='*', # 允許接收多個模型名稱
             type=str,
-            help='The name(s) of the model(s) to export (e.g., ChatMessage ai_ChatMessage). Exports all if not specified.'
+            help='The name(s) of the model(s) to export (e.g., ChatMessage AIChatMessage). Exports all if not specified.'
         )
         # 參數：指定輸出的資料夾路徑
         parser.add_argument(
@@ -45,9 +45,9 @@ class Command(BaseCommand):
         # 列出所有我們想要匯出的模型
         all_models = [
             'ChatMessage',
-            'chatMessage_summary',
-            'ai_ChatMessage',
-            'ai_ChatMessage_summary',
+            'ChatMessageSummary',
+            'AIChatMessage',
+            'AIChatMessageSummary',
         ] #
 
         # 如果使用者沒有指定模型，就匯出全部

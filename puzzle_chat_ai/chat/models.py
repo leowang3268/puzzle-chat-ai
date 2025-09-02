@@ -17,13 +17,13 @@ class ChatMessage(models.Model):
 
 
 
-class chatMessage_summary(models.Model):
+class ChatMessageSummary(models.Model):
     room_name = models.CharField(max_length=100, default="default_room") # 新增
     summary_idx=models.IntegerField(default=0)
     summary_message=models.TextField(default="")
 
 
-class ai_ChatMessage(models.Model):
+class AIChatMessage(models.Model):
     room_name = models.CharField(max_length=255, default="default_room")
     user_name = models.CharField(max_length=100)
     message = models.TextField()
@@ -43,7 +43,7 @@ class ai_ChatMessage(models.Model):
     )
     # ⭐ END: NEW FIELD
 
-class ai_ChatMessage_summary(models.Model):
+class AIChatMessageSummary(models.Model):
     room_name = models.CharField(max_length=100, default="default_room") # 新增
     user_name = models.CharField(max_length=100)
     summary = models.TextField(default="")
