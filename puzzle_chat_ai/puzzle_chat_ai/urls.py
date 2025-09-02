@@ -1,4 +1,4 @@
-# mywebsite/urls.py (最終版)
+# puzzle_chat_ai/urls.py
 
 from django.contrib import admin
 from django.urls import path, include

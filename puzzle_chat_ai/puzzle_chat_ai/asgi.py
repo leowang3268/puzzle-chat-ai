@@ -1,5 +1,5 @@
 """
-ASGI config for mywebsite project.
+ASGI config for puzzle_chat_ai project.
 
 It exposes the ASGI callable as a module-level variable named ``application``.
 
@@ -14,7 +14,7 @@ from channels.routing import ProtocolTypeRouter, URLRouter
 from channels.auth import AuthMiddlewareStack
 import chat.routing
 
-os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'mywebsite.settings')
+os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'puzzle_chat_ai.settings')
 
 application = ProtocolTypeRouter({
     'http':get_asgi_application(),

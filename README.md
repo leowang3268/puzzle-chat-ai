@@ -24,12 +24,12 @@ pip install channels
 #### 1. Open the terminal and navigate to the directory where you want to create your project.
 #### 2. Run the following command to start a new Django project:
 ```
-python -m django startproject mywebsite
+python -m django startproject puzzle_chat_ai
 ```
 #### 3. Create a Django App
-Firstly nevigate to the mywebsite file
+Firstly nevigate to the puzzle_chat_ai file
 ```
-cd mywebsite
+cd puzzle_chat_ai
 ```
 Next, to create an app, run:
 ```
@@ -38,10 +38,10 @@ python manage.py startapp chat
 #### 4. File Structure
 The file structure now will look like:
 ```
-mywebsite/
+puzzle_chat_ai/
     db.sqlite3
     manage.py
-    mywebsite/
+    puzzle_chat_ai/
         __init__.py
         asgi.py
         settings.py
@@ -59,12 +59,12 @@ mywebsite/
 ### Step 3: Update the file
 update the files in chat directory and mywebsite directory with the code provided above.
 ### ps. There are some files that you need to add.
-#### In the " ./mywebsite/chat
+#### In the " ./puzzle_chat_ai/chat
 #### add files: "consumers.py", "forms.py", "routing.py", "urls.py"
 #### add directory: "templates"
 #### And in the "templates" directory 
 #### add "chat" directory
-#### And in the ./mywebsite/chat/templates/chat/
+#### And in the ./puzzle_chat_ai/chat/templates/chat/
 #### add files: "index.html", "lobby.html"
 #### Also update the code in these files
 
